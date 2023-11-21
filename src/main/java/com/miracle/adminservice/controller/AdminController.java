@@ -1,5 +1,6 @@
 package com.miracle.adminservice.controller;
 
+import com.miracle.adminservice.controller.swagger.*;
 import com.miracle.adminservice.dto.request.JobRequestDto;
 import com.miracle.adminservice.dto.request.StackRequestDto;
 import com.miracle.adminservice.dto.response.CommonApiResponse;
@@ -22,6 +23,7 @@ public class AdminController {
         this.adminService = adminServiceImpl;
     }
 
+    @ApiGetAllJobs
     @GetMapping("/jobs")
     public CommonApiResponse getAllJobs(HttpServletResponse response) {
         CommonApiResponse commonApiResponse = adminService.getAlljobs();
@@ -29,6 +31,8 @@ public class AdminController {
         return commonApiResponse;
     }
 
+
+    @ApiMatchJobs
     @PostMapping("/jobs")
     public CommonApiResponse matchJobs(@RequestBody JobRequestDto jobRequestDto, HttpServletResponse response) {
         CommonApiResponse commonApiResponse = adminService.matchJobs(jobRequestDto.getId());
@@ -36,6 +40,7 @@ public class AdminController {
         return commonApiResponse;
     }
 
+    @ApiGetAllStacks
     @GetMapping("/stacks")
     public CommonApiResponse getAllStacks(HttpServletResponse response) {
         CommonApiResponse commonApiResponse = adminService.getAllStacks();
@@ -43,6 +48,7 @@ public class AdminController {
         return commonApiResponse;
     }
 
+    @ApiMatchStacks
     @PostMapping("/stacks")
     public CommonApiResponse matchStacks(@RequestBody StackRequestDto stackRequestDto, HttpServletResponse response) {
         CommonApiResponse commonApiResponse = adminService.matchStacks(stackRequestDto.getId());
