@@ -9,10 +9,16 @@ import org.springframework.context.annotation.Configuration;
 import springfox.documentation.builders.ApiInfoBuilder;
 import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
+import springfox.documentation.builders.RequestParameterBuilder;
 import springfox.documentation.oas.annotations.EnableOpenApi;
-import springfox.documentation.service.ApiInfo;
+import springfox.documentation.service.*;
 import springfox.documentation.spi.DocumentationType;
+import springfox.documentation.spi.service.contexts.SecurityContext;
 import springfox.documentation.spring.web.plugins.Docket;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 @EnableOpenApi
 @Configuration
@@ -21,9 +27,26 @@ public class SwaggerConfig {
      * http://localhost:60003/swagger-ui/index.html
      */
 
+    String sessionId = "123";
+    String miracle = "-915251878";
+
     @Bean
     public Docket api(TypeResolver typeResolver) {
+        List<RequestParameter> requestParameterList = new ArrayList<>();
+        RequestParameter sessionId = new RequestParameterBuilder()
+                .name("sessionId")
+                .in(ParameterType.HEADER)
+                .required(Boolean.TRUE)
+                .build();
+        RequestParameter miracle = new RequestParameterBuilder()
+                .name("miracle")
+                .in(ParameterType.HEADER)
+                .required(Boolean.TRUE)
+                .build();
+        requestParameterList.add(sessionId);
+        requestParameterList.add(miracle);
         return new Docket(DocumentationType.OAS_30)
+                .globalRequestParameters(requestParameterList)
                 .additionalModels(typeResolver.resolve(SuccessApiResponse.class))
                 .additionalModels(typeResolver.resolve(ErrorApiResponse.class))
                 .apiInfo(apiInfo())
@@ -35,7 +58,7 @@ public class SwaggerConfig {
 
     private ApiInfo apiInfo() {
         return new ApiInfoBuilder()
-                .title("Miracle Company Service API")
+                .title("Miracle Admin Service API")
                 .description("관리자와 연관된 요청들을 처리하는 API")
                 .version("1.0.0")
                 .build();
