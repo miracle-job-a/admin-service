@@ -66,7 +66,7 @@ public class AdminServiceImpl implements AdminService {
         if (stackIdSet.isEmpty()) {
             return SuccessApiResponse.builder()
                     .httpStatus(HttpStatus.BAD_REQUEST.value())
-                    .message("스택 id 값이 없습니다.")
+                    .message("스택 id Set에 값이 없습니다.")
                     .data(Boolean.FALSE)
                     .build();
         }
