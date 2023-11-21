@@ -1,5 +1,9 @@
 package com.miracle.adminservice.config;
 
+import com.fasterxml.classmate.TypeResolver;
+import com.miracle.adminservice.dto.response.ErrorApiResponse;
+import com.miracle.adminservice.dto.response.SuccessApiResponse;
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import springfox.documentation.builders.ApiInfoBuilder;
@@ -18,8 +22,10 @@ public class SwaggerConfig {
      */
 
     @Bean
-    public Docket api() {
+    public Docket api(TypeResolver typeResolver) {
         return new Docket(DocumentationType.OAS_30)
+                .additionalModels(typeResolver.resolve(SuccessApiResponse.class))
+                .additionalModels(typeResolver.resolve(ErrorApiResponse.class))
                 .apiInfo(apiInfo())
                 .select()
                 .apis(RequestHandlerSelectors.basePackage("com.miracle.adminservice.controller"))
