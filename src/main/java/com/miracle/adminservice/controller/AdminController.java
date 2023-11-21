@@ -23,21 +23,24 @@ public class AdminController {
     }
 
     @GetMapping("/jobs")
-    public CommonApiResponse getAllJobs() {
-        return adminService.getAlljobs();
+    public CommonApiResponse getAllJobs(HttpServletResponse response) {
+        CommonApiResponse commonApiResponse = adminService.getAlljobs();
+        response.setStatus(commonApiResponse.getHttpStatus());
+        return commonApiResponse;
     }
 
     @PostMapping("/jobs")
     public CommonApiResponse matchJobs(@RequestBody JobRequestDto jobRequestDto, HttpServletResponse response) {
         CommonApiResponse commonApiResponse = adminService.matchJobs(jobRequestDto.getId());
-        response.setStatus(adminService.matchJobs(jobRequestDto.getId()).getHttpStatus());
+        response.setStatus(commonApiResponse.getHttpStatus());
         return commonApiResponse;
     }
 
-
     @GetMapping("/stacks")
-    public CommonApiResponse getAllStacks() {
-        return adminService.getAllStacks();
+    public CommonApiResponse getAllStacks(HttpServletResponse response) {
+        CommonApiResponse commonApiResponse = adminService.getAllStacks();
+        response.setStatus(commonApiResponse.getHttpStatus());
+        return commonApiResponse;
     }
 
     @PostMapping("/stacks")
