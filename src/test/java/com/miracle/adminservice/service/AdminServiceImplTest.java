@@ -75,7 +75,7 @@ class AdminServiceImplTest {
         givenJobList.add(new Job(2L, "프론트엔드 개발자"));
         givenJobList.add(new Job(3L, "서버 개발자"));
 
-         List<JobResponseDto> givenJobDtoList = new ArrayList<>();
+        List<JobResponseDto> givenJobDtoList = new ArrayList<>();
         givenJobDtoList.add(new JobResponseDto(1L, "백엔드 개발자"));
         givenJobDtoList.add(new JobResponseDto(2L, "프론트엔드 개발자"));
         givenJobDtoList.add(new JobResponseDto(3L, "서버 개발자"));
@@ -190,20 +190,10 @@ class AdminServiceImplTest {
     void matchStacksFail() {
         Set<Long> givenStackIdSet = new HashSet<>();
 
-        List<Stack> givenStackList = new ArrayList<>();
-        givenStackList.add(new Stack(1L, "Java"));
-        givenStackList.add(new Stack(2L, "Python"));
-        givenStackList.add(new Stack(3L, "Html"));
-
-        List<StackResponseDto> givenStackDtoList = new ArrayList<>();
-        givenStackDtoList.add(new StackResponseDto(1L, "Java"));
-        givenStackDtoList.add(new StackResponseDto(2L, "Python"));
-        givenStackDtoList.add(new StackResponseDto(3L, "Html"));
-
         SuccessApiResponse<Object> givenResponse = SuccessApiResponse.builder()
-                .httpStatus(HttpStatus.OK.value())
-                .message("스택 매칭 성공")
-                .data(givenStackDtoList)
+                .httpStatus(HttpStatus.BAD_REQUEST.value())
+                .message("스택 id Set에 값이 없습니다.")
+                .data(Boolean.FALSE)
                 .build();
 
         Mockito.when(stackRepository.findAllByIdIn(givenStackIdSet)).thenReturn(null);
