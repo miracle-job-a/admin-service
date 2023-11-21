@@ -23,4 +23,8 @@ public class Job extends BaseEntity {
         this.id = id;
         this.name = name;
     }
+
+    public Job(String name) {
+        this.name = name;
+    }
 }
