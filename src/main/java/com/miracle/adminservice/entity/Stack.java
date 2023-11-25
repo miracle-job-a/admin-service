@@ -16,4 +16,9 @@ public class Stack extends BaseEntity {
 
     @Column(nullable = false, unique = true, length = 30)
     private String name;
+
+    public Stack(Long id, String name) {
+        this.id = id;
+        this.name = name;
+    }
 }
