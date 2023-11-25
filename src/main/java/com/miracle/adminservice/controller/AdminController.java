@@ -31,7 +31,6 @@ public class AdminController {
         return commonApiResponse;
     }
 
-
     @ApiMatchJobs
     @PostMapping("/jobs")
     public CommonApiResponse matchJobs(@RequestBody JobRequestDto jobRequestDto, HttpServletResponse response) {
@@ -52,6 +51,14 @@ public class AdminController {
     @PostMapping("/stacks")
     public CommonApiResponse matchStacks(@RequestBody StackRequestDto stackRequestDto, HttpServletResponse response) {
         CommonApiResponse commonApiResponse = adminService.matchStacks(stackRequestDto.getId());
+        response.setStatus(commonApiResponse.getHttpStatus());
+        return commonApiResponse;
+    }
+
+    @ApiGetJobStacks
+    @GetMapping("jobstacks")
+    public CommonApiResponse getAllJobsAndStacks(HttpServletResponse response) {
+        CommonApiResponse commonApiResponse = adminService.getAllJobsAndStacks();
         response.setStatus(commonApiResponse.getHttpStatus());
         return commonApiResponse;
     }

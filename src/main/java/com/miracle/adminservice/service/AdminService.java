@@ -12,4 +12,5 @@ public interface AdminService {
     CommonApiResponse getAllStacks();
     CommonApiResponse matchStacks(Set<Long> idSet);
 
+    CommonApiResponse getAllJobsAndStacks();
 }

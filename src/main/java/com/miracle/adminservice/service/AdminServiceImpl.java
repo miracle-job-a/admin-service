@@ -80,4 +80,16 @@ public class AdminServiceImpl implements AdminService {
                 .build();
     }
 
+    public CommonApiResponse getAllJobsAndStacks() {
+        List<JobResponseDto> jobList = jobRepository.findAllJobs();
+        List<StackResponseDto> stackList = stackRepository.findAllStacks();
+        Map<String, Object> map = new HashMap<>();
+        map.put("jobs", jobList);
+        map.put("stacks", stackList);
+        return SuccessApiResponse.builder()
+                .httpStatus(HttpStatus.OK.value())
+                .message("전체 직무 및 스택 조회")
+                .data(map)
+                .build();
+    }
 }
