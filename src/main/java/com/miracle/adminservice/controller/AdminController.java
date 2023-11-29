@@ -56,7 +56,7 @@ public class AdminController {
     }
 
     @ApiGetJobStacks
-    @GetMapping("jobstacks")
+    @GetMapping("/jobstacks")
     public CommonApiResponse getAllJobsAndStacks(HttpServletResponse response) {
         CommonApiResponse commonApiResponse = adminService.getAllJobsAndStacks();
         response.setStatus(commonApiResponse.getHttpStatus());
