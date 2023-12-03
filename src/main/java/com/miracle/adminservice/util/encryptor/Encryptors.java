@@ -1,4 +1,4 @@
-package com.miracle.adminservice.encryptor;
+package com.miracle.adminservice.util.encryptor;
 
 
 import com.miracle.adminservice.exception.DecryptDataException;
