@@ -26,20 +26,16 @@ public class SwaggerConfig {
     /**
      * http://localhost:60003/swagger-ui/index.html
      */
-
-    String sessionId = "123";
-    String miracle = "-915251878";
-
     @Bean
     public Docket api(TypeResolver typeResolver) {
         List<RequestParameter> requestParameterList = new ArrayList<>();
         RequestParameter sessionId = new RequestParameterBuilder()
-                .name("sessionId")
+                .name("Session-Id")
                 .in(ParameterType.HEADER)
                 .required(Boolean.TRUE)
                 .build();
         RequestParameter miracle = new RequestParameterBuilder()
-                .name("miracle")
+                .name("Miracle")
                 .in(ParameterType.HEADER)
                 .required(Boolean.TRUE)
                 .build();
