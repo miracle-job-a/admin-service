@@ -73,4 +73,19 @@ public class AdminController {
         response.setStatus(commonApiResponse.getHttpStatus());
         return commonApiResponse;
     }
+
+    @ApiAddStackOrJob
+    @GetMapping("/add")
+    public CommonApiResponse addStackOrJob(@RequestParam(name = "stackName", required = false) String stackName,
+                         @RequestParam(name = "jobName", required = false) String jobName,
+                         HttpServletResponse response) {
+        if (stackName != null) {
+            CommonApiResponse commonApiResponse = adminService.addStack(stackName);
+            response.setStatus(commonApiResponse.getHttpStatus());
+            return commonApiResponse;
+        }
+        CommonApiResponse commonApiResponse = adminService.addJob(jobName);
+        response.setStatus(commonApiResponse.getHttpStatus());
+        return commonApiResponse;
+    }
 }
