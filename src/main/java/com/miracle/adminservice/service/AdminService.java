@@ -22,4 +22,7 @@ public interface AdminService {
 
     CommonApiResponse editStack(Long id, String name);
     CommonApiResponse editJob(Long id, String name);
+
+    CommonApiResponse searchStack(String name);
+    CommonApiResponse searchJob(String name);
 }
