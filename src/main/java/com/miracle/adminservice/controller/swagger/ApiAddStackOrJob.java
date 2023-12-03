@@ -24,10 +24,10 @@ import java.lang.annotation.Target;
                                 examples = {
                                         @ExampleObject(
                                                 name = "성공 / 스택",
-                                                value = "{\"httpStatus\": 200, \"message\": \"스택 등록 성공\", \"data\": AddResponseDto }"),
+                                                value = "{\"httpStatus\": 200, \"message\": \"스택 등록 성공\", \"data\": StackAndJobResponseDto }"),
                                         @ExampleObject(
                                                 name = "성공 / 직무",
-                                                value = "{\"httpStatus\": 200, \"message\": \"직무 등록 성공\", \"data\": AddResponseDto }"),
+                                                value = "{\"httpStatus\": 200, \"message\": \"직무 등록 성공\", \"data\": StackAndJobResponseDto }"),
                                 },
                                 schema = @Schema(implementation = SuccessApiResponse.class)
                         )),
