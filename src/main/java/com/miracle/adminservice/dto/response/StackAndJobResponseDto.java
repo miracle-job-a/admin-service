@@ -7,12 +7,12 @@ import lombok.ToString;
 @Getter
 @ToString
 @EqualsAndHashCode
-public class AddResponseDto {
+public class StackAndJobResponseDto {
 
     private final Long id;
     private final String name;
 
-    public AddResponseDto(Long id, String name) {
+    public StackAndJobResponseDto(Long id, String name) {
         this.id = id;
         this.name = name;
     }
