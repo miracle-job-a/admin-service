@@ -58,6 +58,7 @@ public class AdminController {
         return commonApiResponse;
     }
 
+    @ApiAdminSignup
     @PostMapping("/signup")
     public CommonApiResponse signUpAdmin(@Valid @RequestBody AdminSignRequestDto adminSignUpRequestDto, HttpServletResponse response) {
         CommonApiResponse commonApiResponse = adminService.signUpAdmin(adminSignUpRequestDto);
@@ -65,6 +66,7 @@ public class AdminController {
         return commonApiResponse;
     }
 
+    @ApiAdminLogin
     @PostMapping("/login") //signin
     public CommonApiResponse loginAdmin(@Valid @RequestBody AdminSignRequestDto adminLoginRequestDto, HttpServletResponse response) {
         CommonApiResponse commonApiResponse = adminService.loginAdmin(adminLoginRequestDto);
