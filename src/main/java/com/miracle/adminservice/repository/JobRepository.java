@@ -16,4 +16,6 @@ public interface JobRepository extends JpaRepository<Job, Long> {
     List<JobResponseDto> findAllJobs();
 
     List<Job> findAllByIdIn(Set<Long> jobIdSet);
+
+    Boolean existsByName(String jobName);
 }
