@@ -19,4 +19,7 @@ public interface AdminService {
 
     CommonApiResponse addStack(String stackName);
     CommonApiResponse addJob(String jobName);
+
+    CommonApiResponse editStack(Long id, String name);
+    CommonApiResponse editJob(Long id, String name);
 }

@@ -15,7 +15,7 @@ import java.lang.annotation.Target;
 
 @Target(ElementType.METHOD)
 @Retention(RetentionPolicy.RUNTIME)
-@Operation(summary = "직무/스택 등록", description = "직무 또는 스택 등록을 처리하는 API",
+@Operation(summary = "직무/스택 수정", description = "직무 또는 스택 수정을 처리하는 API",
         responses = {
                 @ApiResponse(responseCode = "200",
                         description = "정상 요청",
@@ -24,10 +24,10 @@ import java.lang.annotation.Target;
                                 examples = {
                                         @ExampleObject(
                                                 name = "성공 / 스택",
-                                                value = "{\"httpStatus\": 200, \"message\": \"스택 등록 성공\", \"data\": StackAndJobResponseDto }"),
+                                                value = "{\"httpStatus\": 200, \"message\": \"스택이 수정되었습니다.\", \"data\": StackAndJobResponseDto }"),
                                         @ExampleObject(
                                                 name = "성공 / 직무",
-                                                value = "{\"httpStatus\": 200, \"message\": \"직무 등록 성공\", \"data\": StackAndJobResponseDto }"),
+                                                value = "{\"httpStatus\": 200, \"message\": \"직무가 수정되었습니다.\", \"data\": StackAndJobResponseDto }"),
                                 },
                                 schema = @Schema(implementation = SuccessApiResponse.class)
                         )),
@@ -42,6 +42,12 @@ import java.lang.annotation.Target;
                                         @ExampleObject(
                                                 name = "실패 / 중복 직무",
                                                 value = "{\"httpStatus\": 400, \"message\": \"이미 등록된 직무 입니다.\", \"data\": false }"),
+                                        @ExampleObject(
+                                                name = "실패 / 미존재 스택 id",
+                                                value = "{\"httpStatus\": 400, \"message\": \"존재하지 않는 스택 id 입니다.\", \"data\": false }"),
+                                        @ExampleObject(
+                                                name = "실패 / 미존재 직무 id",
+                                                value = "{\"httpStatus\": 400, \"message\": \"존재하지 않는 직무 id 입니다.\", \"data\": false }"),
 
                                 },
                                 schema = @Schema(implementation = CommonApiResponse.class)
@@ -52,15 +58,15 @@ import java.lang.annotation.Target;
                                 mediaType = "application/json",
                                 examples = {
                                         @ExampleObject(
-                                                name = "실패 / 스택 저장 실패",
-                                                value = "{\"httpStatus\": 500, \"message\": \"스택 저장에 실패하였습니다.\", \"data\": false }"),
+                                                name = "실패 / 스택 수정 실패",
+                                                value = "{\"httpStatus\": 500, \"message\": \"스택 수정에 실패하였습니다.\", \"data\": false }"),
                                         @ExampleObject(
-                                                name = "실패 / 직무 저장 실패",
-                                                value = "{\"httpStatus\": 500, \"message\": \"직무 저장에 실패하였습니다.\", \"data\": false }"),
+                                                name = "실패 / 직무 수정 실패",
+                                                value = "{\"httpStatus\": 500, \"message\": \"직무 수정에 실패하였습니다.\", \"data\": false }"),
 
                                 },
                                 schema = @Schema(implementation = CommonApiResponse.class)
                         )),
         })
-public @interface ApiAddStackOrJob {
+public @interface ApiEditStackOrJob {
 }
