@@ -2,7 +2,7 @@ package com.miracle.adminservice.service;
 
 import com.miracle.adminservice.dto.request.AdminSignRequestDto;
 import com.miracle.adminservice.dto.response.*;
-import com.miracle.adminservice.encryptor.Encryptors;
+import com.miracle.adminservice.util.encryptor.Encryptors;
 import com.miracle.adminservice.entity.Admin;
 import com.miracle.adminservice.entity.Job;
 import com.miracle.adminservice.entity.Stack;

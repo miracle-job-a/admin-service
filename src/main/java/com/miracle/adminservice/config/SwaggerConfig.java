@@ -1,6 +1,8 @@
 package com.miracle.adminservice.config;
 
 import com.fasterxml.classmate.TypeResolver;
+import com.miracle.adminservice.controller.swagger.ApiDefault;
+import com.miracle.adminservice.controller.swagger.ApiEncryptor;
 import com.miracle.adminservice.dto.response.ErrorApiResponse;
 import com.miracle.adminservice.dto.response.SuccessApiResponse;
 
@@ -13,11 +15,9 @@ import springfox.documentation.oas.annotations.EnableOpenApi;
 import springfox.documentation.schema.Example;
 import springfox.documentation.service.*;
 import springfox.documentation.spi.DocumentationType;
-import springfox.documentation.spi.service.contexts.SecurityContext;
 import springfox.documentation.spring.web.plugins.Docket;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 @EnableOpenApi
@@ -27,7 +27,45 @@ public class SwaggerConfig {
      * http://localhost:60003/swagger-ui/index.html
      */
     @Bean
-    public Docket api(TypeResolver typeResolver) {
+    public Docket defaultApi(TypeResolver typeResolver) {
+        return defaultDocket(typeResolver, "default-API")
+                .globalResponses(HttpMethod.GET, defaultResponse())
+                .globalResponses(HttpMethod.POST, defaultResponse())
+                .globalResponses(HttpMethod.PUT, defaultResponse())
+                .globalResponses(HttpMethod.PATCH, defaultResponse())
+                .globalResponses(HttpMethod.DELETE, defaultResponse())
+                .select()
+                .apis(RequestHandlerSelectors.withMethodAnnotation(ApiDefault.class))
+                .build();
+    }
+
+    @Bean
+    public Docket encryptorApi(TypeResolver typeResolver) {
+        return defaultDocket(typeResolver, "encryptor-API")
+                .globalResponses(HttpMethod.GET, encryptorResponse())
+                .globalResponses(HttpMethod.POST, encryptorResponse())
+                .globalResponses(HttpMethod.PUT, encryptorResponse())
+                .globalResponses(HttpMethod.PATCH, encryptorResponse())
+                .globalResponses(HttpMethod.DELETE, encryptorResponse())
+                .select()
+                .apis(RequestHandlerSelectors.withMethodAnnotation(ApiEncryptor.class))
+                .build();
+    }
+
+    private Docket defaultDocket(TypeResolver typeResolver, String groupName) {
+        return new Docket(DocumentationType.OAS_30)
+                .globalRequestParameters(defaultRequestParameterList())
+                .additionalModels(typeResolver.resolve(SuccessApiResponse.class))
+                .additionalModels(typeResolver.resolve(ErrorApiResponse.class))
+                .apiInfo(apiInfo())
+                .groupName(groupName)
+                .select()
+                .apis(RequestHandlerSelectors.basePackage("com.miracle.adminservice.controller"))
+                .paths(PathSelectors.any())
+                .build();
+    }
+
+    private List<RequestParameter> defaultRequestParameterList() {
         List<RequestParameter> requestParameterList = new ArrayList<>();
         RequestParameter sessionId = new RequestParameterBuilder()
                 .name("Session-Id")
@@ -41,20 +79,7 @@ public class SwaggerConfig {
                 .build();
         requestParameterList.add(sessionId);
         requestParameterList.add(miracle);
-        return new Docket(DocumentationType.OAS_30)
-                .globalRequestParameters(requestParameterList)
-                .additionalModels(typeResolver.resolve(SuccessApiResponse.class))
-                .additionalModels(typeResolver.resolve(ErrorApiResponse.class))
-                .apiInfo(apiInfo())
-                .globalResponses(HttpMethod.GET, defaultResponse())
-                .globalResponses(HttpMethod.POST, defaultResponse())
-                .globalResponses(HttpMethod.PUT, defaultResponse())
-                .globalResponses(HttpMethod.PATCH, defaultResponse())
-                .globalResponses(HttpMethod.DELETE, defaultResponse())
-                .select()
-                .apis(RequestHandlerSelectors.basePackage("com.miracle.adminservice.controller"))
-                .paths(PathSelectors.any())
-                .build();
+        return requestParameterList;
     }
 
     private ApiInfo apiInfo() {
@@ -65,7 +90,33 @@ public class SwaggerConfig {
                 .build();
     }
 
+
+
     private List<Response> defaultResponse() {
+        List<Response> defaultResponseList = new ArrayList<>();
+        Response unauthorizedResponse = new ResponseBuilder()
+                .code("401")
+                .description("인증 실패")
+                .isDefault(true)
+                .examples(
+                        List.of(getUnauthorizedBuild())
+                ).build();
+
+        Response serverErrorResponse = new ResponseBuilder()
+                .code("500")
+                .description("서버 에러")
+                .isDefault(true)
+                .examples(
+                        List.of(getServerErrorBuild()
+                        )
+                ).build();
+
+        defaultResponseList.add(unauthorizedResponse);
+        defaultResponseList.add(serverErrorResponse);
+        return defaultResponseList;
+    }
+
+    private List<Response> encryptorResponse() {
         List<Response> defaultResponseList = new ArrayList<>();
         Response unauthorizedResponse = new ResponseBuilder()
                 .code("401")

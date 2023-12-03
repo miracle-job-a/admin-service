@@ -1,4 +1,4 @@
-package com.miracle.adminservice.filter;
+package com.miracle.adminservice.util.filter;
 
 
 import javax.servlet.*;
