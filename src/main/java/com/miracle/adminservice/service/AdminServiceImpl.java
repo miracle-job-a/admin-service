@@ -117,28 +117,28 @@ public class AdminServiceImpl implements AdminService {
     }
 
     public CommonApiResponse addStack(String stackName) {
-            if (stackRepository.existsByName(stackName)) {
-                return SuccessApiResponse.builder()
-                        .httpStatus(HttpStatus.BAD_REQUEST.value())
-                        .message("이미 등록된 스택 입니다.")
-                        .data(Boolean.FALSE)
-                        .build();
-            }
-            Stack stack = new Stack(stackName);
-            Stack save = stackRepository.save(stack);
-            if (save.getId() == null) {
-                return SuccessApiResponse.builder()
-                        .httpStatus(HttpStatus.INTERNAL_SERVER_ERROR.value())
-                        .message("스택 등록에 실패하였습니다.")
-                        .data(Boolean.FALSE)
-                        .build();
-            }
-        return SuccessApiResponse.builder()
-                    .httpStatus(HttpStatus.OK.value())
-                    .message("스택 등록에 성공하였습니다.")
-                    .data(new StackAndJobResponseDto(stack.getId(), stack.getName()))
+        if (stackRepository.existsByName(stackName)) {
+            return SuccessApiResponse.builder()
+                    .httpStatus(HttpStatus.BAD_REQUEST.value())
+                    .message("이미 등록된 스택 입니다.")
+                    .data(Boolean.FALSE)
                     .build();
         }
+        Stack stack = new Stack(stackName);
+        Stack save = stackRepository.save(stack);
+        if (save.getId() == null) {
+            return SuccessApiResponse.builder()
+                    .httpStatus(HttpStatus.INTERNAL_SERVER_ERROR.value())
+                    .message("스택 등록에 실패하였습니다.")
+                    .data(Boolean.FALSE)
+                    .build();
+        }
+        return SuccessApiResponse.builder()
+                .httpStatus(HttpStatus.OK.value())
+                .message("스택 등록에 성공하였습니다.")
+                .data(new StackAndJobResponseDto(stack.getId(), stack.getName()))
+                .build();
+    }
 
     public CommonApiResponse addJob(String jobName) {
         if (jobRepository.existsByName(jobName)) {
@@ -219,30 +219,54 @@ public class AdminServiceImpl implements AdminService {
             return SuccessApiResponse.builder()
                     .httpStatus(HttpStatus.BAD_REQUEST.value())
                     .message("존재하지 않는 직무 id 입니다.")
-                        .data(Boolean.FALSE)
-                        .build();
-            }
-            if (jobRepository.existsByName(name)) {
-                return SuccessApiResponse.builder()
-                        .httpStatus(HttpStatus.BAD_REQUEST.value())
-                        .message("이미 등록된 직무 입니다.")
-                        .data(Boolean.FALSE)
-                        .build();
-            }
-            Job job = optionalJob.get();
-            job.setName(name);
-            Job save = jobRepository.save(job);
-            if (!save.getName().equals(name)) {
-                return SuccessApiResponse.builder()
-                        .httpStatus(HttpStatus.INTERNAL_SERVER_ERROR.value())
-                        .message("직무 수정에 실패하였습니다.")
-                        .data(Boolean.FALSE)
-                        .build();
-            }
+                    .data(Boolean.FALSE)
+                    .build();
+        }
+        if (jobRepository.existsByName(name)) {
             return SuccessApiResponse.builder()
-                    .httpStatus(HttpStatus.OK.value())
+                    .httpStatus(HttpStatus.BAD_REQUEST.value())
+                    .message("이미 등록된 직무 입니다.")
+                    .data(Boolean.FALSE)
+                    .build();
+        }
+        Job job = optionalJob.get();
+        job.setName(name);
+        Job save = jobRepository.save(job);
+        if (!save.getName().equals(name)) {
+            return SuccessApiResponse.builder()
+                    .httpStatus(HttpStatus.INTERNAL_SERVER_ERROR.value())
+                    .message("직무 수정에 실패하였습니다.")
+                    .data(Boolean.FALSE)
+                    .build();
+        }
+        return SuccessApiResponse.builder()
+                .httpStatus(HttpStatus.OK.value())
                 .message("직무가 수정되었습니다.")
                 .data(new StackAndJobResponseDto(save.getId(), save.getName()))
+                .build();
+    }
+
+    @Override
+    public CommonApiResponse searchStack(String name) {
+        List<Stack> byNameLike = stackRepository.findByNameLike("%"+name+"%");
+        List<StackAndJobResponseDto> result = new ArrayList<>();
+        byNameLike.iterator().forEachRemaining((Stack s) -> result.add(new StackAndJobResponseDto(s.getId(), s.getName())));
+        return SuccessApiResponse.builder()
+                .httpStatus(HttpStatus.OK.value())
+                .message("스택 검색 결과")
+                .data(result)
+                .build();
+    }
+
+    @Override
+    public CommonApiResponse searchJob(String name) {
+        List<Job> byNameLike = jobRepository.findByNameLike("%"+name+"%");
+        List<StackAndJobResponseDto> result = new ArrayList<>();
+        byNameLike.iterator().forEachRemaining((Job j) -> result.add(new StackAndJobResponseDto(j.getId(), j.getName())));
+        return SuccessApiResponse.builder()
+                .httpStatus(HttpStatus.OK.value())
+                .message("직무 검색 결과")
+                .data(result)
                 .build();
     }
 }
