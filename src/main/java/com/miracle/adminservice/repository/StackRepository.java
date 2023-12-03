@@ -15,4 +15,6 @@ public interface StackRepository extends JpaRepository<Stack, Long> {
     @Query("SELECT new com.miracle.adminservice.dto.response.StackResponseDto(s.id, s.name) FROM Stack s")
     List<StackResponseDto> findAllStacks();
     List<Stack> findAllByIdIn(Set<Long> stackIdSet);
+
+    Boolean existsByName(String stackName);
 }

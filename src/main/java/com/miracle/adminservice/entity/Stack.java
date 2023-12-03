@@ -21,4 +21,8 @@ public class Stack extends BaseEntity {
         this.id = id;
         this.name = name;
     }
+
+    public Stack(String name) {
+        this.name = name;
+    }
 }
