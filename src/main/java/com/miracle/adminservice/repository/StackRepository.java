@@ -13,26 +13,35 @@ import java.util.Set;
 public interface StackRepository extends JpaRepository<Stack, Long> {
 
     /**
-     * @author kade
      * @return List<StackAndJobResponseDto>
      * 전제 스택을 반환합니다.
+     * @author kade
      */
     @Query("SELECT new com.miracle.adminservice.dto.response.StackAndJobResponseDto(s.id, s.name) FROM Stack s")
     List<StackAndJobResponseDto> findAllStacks();
 
     /**
-     * @author kade
      * @param stackIdSet
      * @return List<Stack>
      * stackIdSet을 받고 해당하는 stack을 반환합니다.
+     * @author kade
      */
     List<Stack> findAllByIdIn(Set<Long> stackIdSet);
 
     /**
-     * @author kade
      * @param stackName
      * @return Boolean
      * stackName으로 존재 여부를 확인합니다.
+     * @author kade
      */
     Boolean existsByName(String stackName);
+
+    /**
+     * @author kade
+     * @param stackName
+     * @return List<Stack>
+     * 키워드를 받아 스택 이름에서 조회하여 반환합니다.
+     */
+    List<Stack> findByNameLike(String stackName);
+
 }
