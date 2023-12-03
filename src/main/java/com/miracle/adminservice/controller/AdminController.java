@@ -77,8 +77,8 @@ public class AdminController {
     @ApiAddStackOrJob
     @GetMapping("/add")
     public CommonApiResponse addStackOrJob(@RequestParam(name = "stackName", required = false) String stackName,
-                         @RequestParam(name = "jobName", required = false) String jobName,
-                         HttpServletResponse response) {
+                                           @RequestParam(name = "jobName", required = false) String jobName,
+                                           HttpServletResponse response) {
         if (stackName != null) {
             CommonApiResponse commonApiResponse = adminService.addStack(stackName);
             response.setStatus(commonApiResponse.getHttpStatus());
@@ -88,4 +88,22 @@ public class AdminController {
         response.setStatus(commonApiResponse.getHttpStatus());
         return commonApiResponse;
     }
+
+    @ApiEditStackOrJob
+    @PutMapping("edit")
+    public CommonApiResponse editStackOrJob(@RequestParam(name = "stackId", required = false) Long stackId,
+                                           @RequestParam(name = "stackName", required = false) String stackName,
+                                           @RequestParam(name = "jobId", required = false) Long jobId,
+                                           @RequestParam(name = "jobName", required = false) String jobName,
+                                           HttpServletResponse response) {
+        if (stackId != null && stackName != null) {
+            CommonApiResponse commonApiResponse = adminService.editStack(stackId, stackName);
+            response.setStatus(commonApiResponse.getHttpStatus());
+            return commonApiResponse;
+        }
+        CommonApiResponse commonApiResponse = adminService.editJob(jobId, jobName);
+        response.setStatus(commonApiResponse.getHttpStatus());
+        return commonApiResponse;
+    }
+
 }
