@@ -1,4 +1,4 @@
-package com.miracle.adminservice.repsitory;
+package com.miracle.adminservice.repository;
 
 import com.miracle.adminservice.dto.response.JobResponseDto;
 import com.miracle.adminservice.entity.Job;

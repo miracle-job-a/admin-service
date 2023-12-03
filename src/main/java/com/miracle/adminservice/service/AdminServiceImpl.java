@@ -1,30 +1,29 @@
 package com.miracle.adminservice.service;
 
-import com.miracle.adminservice.dto.response.CommonApiResponse;
-import com.miracle.adminservice.dto.response.JobResponseDto;
-import com.miracle.adminservice.dto.response.StackResponseDto;
-import com.miracle.adminservice.dto.response.SuccessApiResponse;
+import com.miracle.adminservice.dto.request.AdminSignRequestDto;
+import com.miracle.adminservice.dto.response.*;
+import com.miracle.adminservice.encryptor.Encryptors;
+import com.miracle.adminservice.entity.Admin;
 import com.miracle.adminservice.entity.Job;
 import com.miracle.adminservice.entity.Stack;
-import com.miracle.adminservice.repsitory.JobRepository;
-import com.miracle.adminservice.repsitory.StackRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.miracle.adminservice.repository.AdminRepository;
+import com.miracle.adminservice.repository.JobRepository;
+import com.miracle.adminservice.repository.StackRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
 
 @Service
+@RequiredArgsConstructor
 public class AdminServiceImpl implements AdminService {
 
     private final JobRepository jobRepository;
     private final StackRepository stackRepository;
+    private final AdminRepository adminRepository;
+    private final Encryptors encryptors;
 
-    @Autowired
-    public AdminServiceImpl(JobRepository jobRepository, StackRepository stackRepository) {
-        this.jobRepository = jobRepository;
-        this.stackRepository = stackRepository;
-    }
 
     public CommonApiResponse getAlljobs() {
         List<JobResponseDto> jobList = jobRepository.findAllJobs();
@@ -80,16 +79,40 @@ public class AdminServiceImpl implements AdminService {
                 .build();
     }
 
-    public CommonApiResponse getAllJobsAndStacks() {
-        List<JobResponseDto> jobList = jobRepository.findAllJobs();
-        List<StackResponseDto> stackList = stackRepository.findAllStacks();
-        Map<String, Object> map = new HashMap<>();
-        map.put("jobs", jobList);
-        map.put("stacks", stackList);
+    public CommonApiResponse signUpAdmin(AdminSignRequestDto adminSignUpRequestDto) {
+        if (adminRepository.existsByEmail(encryptors.encryptAES(adminSignUpRequestDto.getEmail(), encryptors.getSecretKey()))) {
+            return SuccessApiResponse.builder()
+                    .httpStatus(HttpStatus.BAD_REQUEST.value())
+                    .message("사용할 수 없는 ID 입니다.")
+                    .data(Boolean.FALSE)
+                    .build();
+        }
+        Admin admin = new Admin(encryptors.encryptAES(adminSignUpRequestDto.getEmail(), encryptors.getSecretKey()), encryptors.SHA3Algorithm(adminSignUpRequestDto.getPassword()));
+        adminRepository.save(admin);
         return SuccessApiResponse.builder()
                 .httpStatus(HttpStatus.OK.value())
-                .message("전체 직무 및 스택 조회")
-                .data(map)
+                .message("회원가입 성공")
+                .data(Boolean.TRUE)
+                .build();
+    }
+
+    public CommonApiResponse loginAdmin(AdminSignRequestDto adminLoginRequestDto) {
+        Optional<Admin> byEmailAndPassword = adminRepository.findByEmailAndPassword(encryptors.encryptAES(adminLoginRequestDto.getEmail(),
+                encryptors.getSecretKey()), encryptors.SHA3Algorithm(adminLoginRequestDto.getPassword()));
+        if (byEmailAndPassword.isEmpty()) {
+            return SuccessApiResponse.builder()
+                    .httpStatus(HttpStatus.BAD_REQUEST.value())
+                    .message("아이디 또는 비밀번호가 일치하지 않습니다.")
+                    .data(Boolean.FALSE)
+                    .build();
+        }
+        AdminSignResponseDto adminLoginResponseDto = new AdminSignResponseDto(byEmailAndPassword.get().getId(),
+                encryptors.decryptAES(byEmailAndPassword.get().getEmail(), encryptors.getSecretKey()));
+
+        return SuccessApiResponse.builder()
+                .httpStatus(HttpStatus.OK.value())
+                .message("관리자 로그인 성공")
+                .data(adminLoginResponseDto)
                 .build();
     }
 }

@@ -1,8 +1,6 @@
-package com.miracle.adminservice.repsitory;
+package com.miracle.adminservice.repository;
 
-import com.miracle.adminservice.dto.response.JobResponseDto;
 import com.miracle.adminservice.dto.response.StackResponseDto;
-import com.miracle.adminservice.entity.Job;
 import com.miracle.adminservice.entity.Stack;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;

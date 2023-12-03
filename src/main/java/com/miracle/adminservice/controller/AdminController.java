@@ -1,17 +1,18 @@
 package com.miracle.adminservice.controller;
 
 import com.miracle.adminservice.controller.swagger.*;
+import com.miracle.adminservice.dto.request.AdminSignRequestDto;
 import com.miracle.adminservice.dto.request.JobRequestDto;
 import com.miracle.adminservice.dto.request.StackRequestDto;
 import com.miracle.adminservice.dto.response.CommonApiResponse;
-import com.miracle.adminservice.dto.response.JobResponseDto;
+
 import com.miracle.adminservice.service.AdminService;
 import com.miracle.adminservice.service.AdminServiceImpl;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
-import java.util.HashSet;
-import java.util.Set;
+import javax.validation.Valid;
+
 
 @RestController
 @RequestMapping("/v1/admin")
@@ -21,6 +22,7 @@ public class AdminController {
 
     public AdminController(AdminServiceImpl adminServiceImpl) {
         this.adminService = adminServiceImpl;
+
     }
 
     @ApiGetAllJobs
@@ -30,6 +32,7 @@ public class AdminController {
         response.setStatus(commonApiResponse.getHttpStatus());
         return commonApiResponse;
     }
+
 
     @ApiMatchJobs
     @PostMapping("/jobs")
@@ -55,10 +58,16 @@ public class AdminController {
         return commonApiResponse;
     }
 
-    @ApiGetJobStacks
-    @GetMapping("/jobstacks")
-    public CommonApiResponse getAllJobsAndStacks(HttpServletResponse response) {
-        CommonApiResponse commonApiResponse = adminService.getAllJobsAndStacks();
+    @PostMapping("/signup")
+    public CommonApiResponse signUpAdmin(@Valid @RequestBody AdminSignRequestDto adminSignUpRequestDto, HttpServletResponse response) {
+        CommonApiResponse commonApiResponse = adminService.signUpAdmin(adminSignUpRequestDto);
+        response.setStatus(commonApiResponse.getHttpStatus());
+        return commonApiResponse;
+    }
+
+    @PostMapping("/login") //signin
+    public CommonApiResponse loginAdmin(@Valid @RequestBody AdminSignRequestDto adminLoginRequestDto, HttpServletResponse response) {
+        CommonApiResponse commonApiResponse = adminService.loginAdmin(adminLoginRequestDto);
         response.setStatus(commonApiResponse.getHttpStatus());
         return commonApiResponse;
     }

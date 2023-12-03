@@ -1,4 +1,4 @@
-package com.miracle.adminservice.repsitory;
+package com.miracle.adminservice.repository;
 
 import com.miracle.adminservice.entity.Inquiry;
 import org.springframework.data.jpa.repository.JpaRepository;
