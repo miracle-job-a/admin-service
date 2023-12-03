@@ -83,7 +83,7 @@ public class AdminServiceImpl implements AdminService {
         if (adminRepository.existsByEmail(encryptors.encryptAES(adminSignUpRequestDto.getEmail(), encryptors.getSecretKey()))) {
             return SuccessApiResponse.builder()
                     .httpStatus(HttpStatus.BAD_REQUEST.value())
-                    .message("사용할 수 없는 ID 입니다.")
+                    .message("사용할 수 없는 Email 입니다.")
                     .data(Boolean.FALSE)
                     .build();
         }
@@ -102,7 +102,7 @@ public class AdminServiceImpl implements AdminService {
         if (byEmailAndPassword.isEmpty()) {
             return SuccessApiResponse.builder()
                     .httpStatus(HttpStatus.BAD_REQUEST.value())
-                    .message("아이디 또는 비밀번호가 일치하지 않습니다.")
+                    .message("이메일 또는 비밀번호가 일치하지 않습니다.")
                     .data(Boolean.FALSE)
                     .build();
         }
