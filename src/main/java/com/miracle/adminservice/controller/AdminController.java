@@ -26,6 +26,7 @@ public class AdminController {
     }
 
     @ApiGetAllJobs
+    @ApiDefault
     @GetMapping("/jobs")
     public CommonApiResponse getAllJobs(HttpServletResponse response) {
         CommonApiResponse commonApiResponse = adminService.getAlljobs();
@@ -35,6 +36,7 @@ public class AdminController {
 
 
     @ApiMatchJobs
+    @ApiDefault
     @PostMapping("/jobs")
     public CommonApiResponse matchJobs(@RequestBody JobRequestDto jobRequestDto, HttpServletResponse response) {
         CommonApiResponse commonApiResponse = adminService.matchJobs(jobRequestDto.getId());
@@ -43,6 +45,7 @@ public class AdminController {
     }
 
     @ApiGetAllStacks
+    @ApiDefault
     @GetMapping("/stacks")
     public CommonApiResponse getAllStacks(HttpServletResponse response) {
         CommonApiResponse commonApiResponse = adminService.getAllStacks();
@@ -51,6 +54,7 @@ public class AdminController {
     }
 
     @ApiMatchStacks
+    @ApiDefault
     @PostMapping("/stacks")
     public CommonApiResponse matchStacks(@RequestBody StackRequestDto stackRequestDto, HttpServletResponse response) {
         CommonApiResponse commonApiResponse = adminService.matchStacks(stackRequestDto.getId());
@@ -59,6 +63,7 @@ public class AdminController {
     }
 
     @ApiAdminSignup
+    @ApiEncryptor
     @PostMapping("/signup")
     public CommonApiResponse signUpAdmin(@Valid @RequestBody AdminSignRequestDto adminSignUpRequestDto, HttpServletResponse response) {
         CommonApiResponse commonApiResponse = adminService.signUpAdmin(adminSignUpRequestDto);
@@ -67,6 +72,7 @@ public class AdminController {
     }
 
     @ApiAdminLogin
+    @ApiEncryptor
     @PostMapping("/login") //signin
     public CommonApiResponse loginAdmin(@Valid @RequestBody AdminSignRequestDto adminLoginRequestDto, HttpServletResponse response) {
         CommonApiResponse commonApiResponse = adminService.loginAdmin(adminLoginRequestDto);
@@ -75,6 +81,7 @@ public class AdminController {
     }
 
     @ApiAddStackOrJob
+    @ApiDefault
     @GetMapping("/add")
     public CommonApiResponse addStackOrJob(@RequestParam(name = "stackName", required = false) String stackName,
                                            @RequestParam(name = "jobName", required = false) String jobName,
@@ -90,6 +97,7 @@ public class AdminController {
     }
 
     @ApiEditStackOrJob
+    @ApiDefault
     @PutMapping("edit")
     public CommonApiResponse editStackOrJob(@RequestParam(name = "stackId", required = false) Long stackId,
                                             @RequestParam(name = "stackName", required = false) String stackName,
@@ -107,6 +115,7 @@ public class AdminController {
     }
 
     @ApiSearchStackOrJob
+    @ApiDefault
     @GetMapping("/search")
     public CommonApiResponse searchStackOrJob(@RequestParam(name = "stackName", required = false) String stackName,
                                               @RequestParam(name = "jobName", required = false) String jobName,
