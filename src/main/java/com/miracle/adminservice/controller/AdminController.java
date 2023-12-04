@@ -62,6 +62,14 @@ public class AdminController {
         return commonApiResponse;
     }
 
+    @ApiGetJobStacks
+    @GetMapping("/jobstacks")
+    public CommonApiResponse getAllJobsAndStacks(HttpServletResponse response) {
+        CommonApiResponse commonApiResponse = adminService.getAllJobsAndStacks();
+        response.setStatus(commonApiResponse.getHttpStatus());
+        return commonApiResponse;
+    }
+
     @ApiAdminSignup
     @ApiEncryptor
     @PostMapping("/signup")

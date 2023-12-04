@@ -61,6 +61,19 @@ public class AdminServiceImpl implements AdminService {
                 .build();
     }
 
+    public CommonApiResponse getAllJobsAndStacks() {
+        List<StackAndJobResponseDto> jobList = jobRepository.findAllJobs();
+        List<StackAndJobResponseDto> stackList = stackRepository.findAllStacks();
+        Map<String, Object> map = new HashMap<>();
+        map.put("jobs", jobList);
+        map.put("stacks", stackList);
+        return SuccessApiResponse.builder()
+                .httpStatus(HttpStatus.OK.value())
+                .message("전체 직무 및 스택 조회")
+                .data(map)
+                .build();
+    }
+
     public CommonApiResponse matchStacks(Set<Long> stackIdSet) {
         if (stackIdSet.isEmpty()) {
             return SuccessApiResponse.builder()
@@ -248,7 +261,7 @@ public class AdminServiceImpl implements AdminService {
 
     @Override
     public CommonApiResponse searchStack(String name) {
-        List<Stack> byNameLike = stackRepository.findByNameLike("%"+name+"%");
+        List<Stack> byNameLike = stackRepository.findByNameLike("%" + name + "%");
         List<StackAndJobResponseDto> result = new ArrayList<>();
         byNameLike.iterator().forEachRemaining((Stack s) -> result.add(new StackAndJobResponseDto(s.getId(), s.getName())));
         return SuccessApiResponse.builder()
@@ -260,7 +273,7 @@ public class AdminServiceImpl implements AdminService {
 
     @Override
     public CommonApiResponse searchJob(String name) {
-        List<Job> byNameLike = jobRepository.findByNameLike("%"+name+"%");
+        List<Job> byNameLike = jobRepository.findByNameLike("%" + name + "%");
         List<StackAndJobResponseDto> result = new ArrayList<>();
         byNameLike.iterator().forEachRemaining((Job j) -> result.add(new StackAndJobResponseDto(j.getId(), j.getName())));
         return SuccessApiResponse.builder()
