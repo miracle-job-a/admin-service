@@ -5,6 +5,9 @@ spring:
     password: ${DB_password}
     driver-class-name: com.mysql.cj.jdbc.Driver
 
+  application:
+    name: adminService
+
   jpa:
     hibernate:
       ddl-auto: validate
