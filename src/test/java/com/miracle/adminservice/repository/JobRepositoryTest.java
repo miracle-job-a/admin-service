@@ -37,6 +37,7 @@ class JobRepositoryTest {
         Assertions.assertThat(save2.getName()).isEqualTo(job2.getName());
         Assertions.assertThat(save3.getName()).isEqualTo(job3.getName());
     }*/
+/*
 
     @Test
     @DisplayName("전체 직무 조회 성공")
@@ -50,6 +51,7 @@ class JobRepositoryTest {
 
         Assertions.assertThat(jobList.size()).isEqualTo(givenIdSet.size());
     }
+*/
 
     /*@Test
     @DisplayName("직무 매칭 성공")

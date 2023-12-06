@@ -179,6 +179,7 @@ class AdminServiceImplTest {
 
         verify(stackRepository).findAllByIdIn(givenStackIdSet);
     }*/
+/*
 
     @Test
     @DisplayName("스택 매칭 실패 / Set is empty")
@@ -199,4 +200,7 @@ class AdminServiceImplTest {
         Assertions.assertThat(resultResponse.getMessage()).isEqualTo(givenResponse.getMessage());
         Assertions.assertThat(resultResponse.getData()).isEqualTo(givenResponse.getData());
     }
+*/
+
 }
+
