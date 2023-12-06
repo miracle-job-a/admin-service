@@ -104,7 +104,6 @@ public class AdminController {
         return commonApiResponse;
     }
 
-
     @ApiEditStackOrJob
     @ApiDefault
     @PutMapping("/edit")
