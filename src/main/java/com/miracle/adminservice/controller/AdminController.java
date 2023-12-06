@@ -106,7 +106,7 @@ public class AdminController {
 
     @ApiEditStackOrJob
     @ApiDefault
-    @PutMapping("edit")
+    @PutMapping("/edit")
     public CommonApiResponse editStackOrJob(@RequestParam(name = "stackId", required = false) Long stackId,
                                             @RequestParam(name = "stackName", required = false) String stackName,
                                             @RequestParam(name = "jobId", required = false) Long jobId,
