@@ -22,7 +22,6 @@ public class AdminController {
 
     public AdminController(AdminServiceImpl adminServiceImpl) {
         this.adminService = adminServiceImpl;
-
     }
 
     @ApiGetAllJobs
