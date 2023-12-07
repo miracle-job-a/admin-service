@@ -1,8 +1,7 @@
 package com.miracle.adminservice.util.filter;
 
 
-import org.hibernate.cfg.Environment;
-import org.springframework.web.context.support.StandardServletEnvironment;
+import org.springframework.core.env.Environment;
 
 import javax.servlet.*;
 import javax.servlet.annotation.WebFilter;
@@ -15,7 +14,7 @@ public class TokenCheckFilter implements Filter {
     private final String privateKey;
 
     public TokenCheckFilter(Environment environment) {
-        this.privateKey = new StandardServletEnvironment().getProperty("miracle.privateKey");
+        this.privateKey = environment.getProperty("miracle.privateKey");
     }
 
     @Override
