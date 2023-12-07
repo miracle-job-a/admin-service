@@ -2,6 +2,7 @@ package com.miracle.adminservice.util.filter;
 
 
 import org.springframework.core.env.Environment;
+import org.springframework.web.context.support.StandardServletEnvironment;
 
 import javax.servlet.*;
 import javax.servlet.annotation.WebFilter;
@@ -11,14 +12,17 @@ import java.io.IOException;
 @WebFilter(urlPatterns = "/v1/*")
 public class TokenCheckFilter implements Filter {
 
-    private final String privateKey;
+    private Environment environment;
 
-    public TokenCheckFilter(Environment environment) {
-        this.privateKey = environment.getProperty("miracle.privateKey");
+
+    @Override
+    public void init(FilterConfig filterConfig) throws ServletException {
+        this.environment = new StandardServletEnvironment();
     }
 
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
+        String privateKey = environment.getProperty("privateKey");
 
         HttpServletRequest httpServletRequest = (HttpServletRequest) request;
 
