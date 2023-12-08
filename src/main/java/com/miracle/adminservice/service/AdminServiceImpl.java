@@ -197,7 +197,7 @@ public class AdminServiceImpl implements AdminService {
         if (stackRepository.existsByName(name)) {
             return SuccessApiResponse.builder()
                     .httpStatus(HttpStatus.BAD_REQUEST.value())
-                    .message("이미 등록된 직무 입니다.")
+                    .message("이미 등록된 스택 입니다.")
                     .data(Boolean.FALSE)
                     .build();
         }
