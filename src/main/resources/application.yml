@@ -2,7 +2,8 @@ spring:
   application:
     name: adminService
   profiles:
-    active: prod
+    active: test
   config:
       import: optional:configserver:http://miracle:1234@3.36.100.180:60010
+
 
