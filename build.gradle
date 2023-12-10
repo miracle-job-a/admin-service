@@ -31,10 +31,20 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-validation'
 	implementation 'com.google.code.gson:gson:2.10'
 	implementation 'io.springfox:springfox-boot-starter:3.0.0'
+
 	implementation 'org.bouncycastle:bcpkix-jdk15on:1.68'
 
 	implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-client'
 	implementation 'org.springframework.cloud:spring-cloud-starter-config'
+
+	implementation 'org.springframework.boot:spring-boot-starter-actuator'
+	runtimeOnly 'io.micrometer:micrometer-registry-prometheus'
+
+	implementation 'io.prometheus:simpleclient:0.13.0'
+	implementation 'io.prometheus:simpleclient_common:0.13.0'
+	implementation 'io.prometheus:simpleclient_hotspot:0.13.0'
+	implementation 'io.prometheus:simpleclient_servlet:0.13.0'
+
 
 	compileOnly 'org.projectlombok:lombok'
 	runtimeOnly 'com.mysql:mysql-connector-j'
