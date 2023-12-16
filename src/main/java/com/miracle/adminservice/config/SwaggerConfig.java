@@ -99,7 +99,7 @@ public class SwaggerConfig {
                 .description("인증 실패")
                 .isDefault(true)
                 .examples(
-                        List.of(getUnauthorizedBuild())
+                        List.of(getUnauthorizedBuild(), getJwtUnauthorizedBuild())
                 ).build();
 
         Response serverErrorResponse = new ResponseBuilder()
@@ -123,7 +123,7 @@ public class SwaggerConfig {
                 .description("인증 실패")
                 .isDefault(true)
                 .examples(
-                        List.of(getUnauthorizedBuild())
+                        List.of(getUnauthorizedBuild(), getJwtUnauthorizedBuild())
                 ).build();
 
         Response serverErrorResponse = new ResponseBuilder()
@@ -219,6 +219,18 @@ public class SwaggerConfig {
                         "토큰 값이 일치하지 않습니다.",
                         "401",
                         "UnauthorizedTokenException"))
+                .build();
+    }
+
+    private static Example getJwtUnauthorizedBuild() {
+        return new ExampleBuilder()
+                .id("2")
+                .mediaType("application/json")
+                .summary("JWT 토큰 인증 실패")
+                .value(new SuccessApiResponse<>(
+                        HttpStatus.UNAUTHORIZED.value(),
+                        "JWT 토큰 인증 실패",
+                        Boolean.FALSE))
                 .build();
     }
 }

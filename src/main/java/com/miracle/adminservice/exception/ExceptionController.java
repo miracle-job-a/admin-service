@@ -4,6 +4,7 @@ package com.miracle.adminservice.exception;
 
 import com.miracle.adminservice.dto.response.CommonApiResponse;
 import com.miracle.adminservice.dto.response.ErrorApiResponse;
+import com.sun.jdi.request.InvalidRequestStateException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpRequest;
 import org.springframework.http.HttpStatus;
@@ -12,7 +13,10 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+
+import static org.springframework.http.HttpStatus.UNAUTHORIZED;
 
 @Slf4j
 @RestControllerAdvice
@@ -137,6 +141,18 @@ public class ExceptionController {
                 .code("500")
                 .message("SecretKey 생성에 실패하였습니다.")
                 .exception("GenerateSecretKeyException")
+                .build();
+    }
+
+    @ResponseStatus(UNAUTHORIZED)
+    @ExceptionHandler(InvalidRequestStateException.class)
+    public CommonApiResponse invalidToken(InvalidRequestStateException e) {
+        log.info("[InvalidRequestStateException] : " + e.getMessage());
+        return ErrorApiResponse.builder()
+                .httpStatus(HttpStatus.UNAUTHORIZED.value())
+                .code("401")
+                .message("JWT 토큰 인증 실패")
+                .exception("InvalidRequestStateException")
                 .build();
     }
 }
